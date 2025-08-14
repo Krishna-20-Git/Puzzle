@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ELEVATE - The Swap Puzzle</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>ELEVATE: The Puzzle</h1>
+    <p>Swap the pieces to solve the puzzle.</p>
+
+    <div id="timer-display"></div>
+    <hr />
+    <div id="puzzle-grid"></div>
+
+    <div id="success-overlay">
+      <h1 id="success-message">Join us on 21st and 22nd</h1>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const grid = document.getElementById("puzzle-grid");
+        const timerDisplay = document.getElementById("timer-display");
+        const pieceCount = 9;
+        const imageUrl = "poster.jpg";
+
+        let firstSelectedPiece = null;
+        let timeLeft = 15;
+        let countdownTimer;
+
+        function startTimer() {
+          // Timer logic remains the same
+          timerDisplay.textContent = `Time left: ${timeLeft}s`;
+          countdownTimer = setInterval(() => {
+            timeLeft--;
+            timerDisplay.textContent = `Time left: ${timeLeft}s`;
+            if (timeLeft <= 0) {
+              clearInterval(countdownTimer);
+              window.location.href = "gameover.html";
+            }
+          }, 1000);
+        }
+
+        // Piece creation and swapping logic remains the same
+        const pieces = [];
+        for (let i = 0; i < pieceCount; i++) {
+          const piece = document.createElement("div");
+          piece.dataset.id = i + 1;
+          piece.classList.add("puzzle-piece");
+          piece.style.backgroundImage = `url(${imageUrl})`;
+          const row = Math.floor(i / 3);
+          const col = i % 3;
+          piece.style.backgroundPosition = `${col * 50}% ${row * 50}%`;
+          pieces.push(piece);
+        }
+        pieces.sort(() => Math.random() - 0.5);
+        pieces.forEach((piece) => {
+          const cell = document.createElement("div");
+          cell.classList.add("grid-cell");
+          cell.appendChild(piece);
+          grid.appendChild(cell);
+        });
+
+        grid.addEventListener("click", (e) => {
+          const clickedPiece = e.target;
+          if (!clickedPiece.classList.contains("puzzle-piece")) return;
+          if (firstSelectedPiece === null) {
+            firstSelectedPiece = clickedPiece;
+            firstSelectedPiece.classList.add("selected");
+          } else {
+            const secondSelectedPiece = clickedPiece;
+            if (secondSelectedPiece === firstSelectedPiece) {
+              firstSelectedPiece.classList.remove("selected");
+              firstSelectedPiece = null;
+              return;
+            }
+            const parent1 = firstSelectedPiece.parentNode;
+            const parent2 = secondSelectedPiece.parentNode;
+            parent1.appendChild(secondSelectedPiece);
+            parent2.appendChild(firstSelectedPiece);
+            firstSelectedPiece.classList.remove("selected");
+            firstSelectedPiece = null;
+            checkCompletion();
+          }
+        });
+
+        // --- NEW WIN CONDITION LOGIC ---
+        function checkCompletion() {
+          const currentPieces = grid.querySelectorAll(".puzzle-piece");
+          let solved = true;
+          currentPieces.forEach((piece, index) => {
+            if (parseInt(piece.dataset.id) !== index + 1) {
+              solved = false;
+            }
+          });
+
+          if (solved) {
+            // 1. Stop the timer
+            clearInterval(countdownTimer);
+            timerDisplay.style.display = "none"; // Hide the timer
+
+            // 2. Make the solved puzzle look like a single image
+            grid.classList.add("solved");
+
+            // 3. Wait for 7 seconds
+            setTimeout(() => {
+              // 4. Pop up the message with a slow transition
+              const overlay = document.getElementById("success-overlay");
+              overlay.style.visibility = "visible";
+              overlay.style.opacity = "1";
+            }, 1500); // 7000 milliseconds = 7 seconds
+          }
+        }
+
+        startTimer();
+      });
+    </script>
+  </body>
+</html>
