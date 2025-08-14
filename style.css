@@ -1,0 +1,112 @@
+body {
+  background-color: #1a1a2e;
+  color: #e0e0e0;
+  font-family: sans-serif;
+  text-align: center;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background-color: #4a4a5e;
+}
+
+#timer-display {
+  font-size: 2em;
+  font-weight: bold;
+  color: #e74c3c;
+  margin: 10px 0;
+}
+
+#puzzle-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 150px);
+  grid-template-rows: repeat(3, 150px);
+  justify-content: center;
+  margin: 20px auto;
+}
+
+/* This new style removes the borders when the puzzle is solved */
+#puzzle-grid.solved .puzzle-piece {
+  border: none;
+}
+
+.grid-cell {
+  width: 100%;
+  height: 100%;
+}
+
+.puzzle-piece {
+  width: 100%;
+  height: 100%;
+  background-size: 300% 300%;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid #4a4a5e;
+  box-sizing: border-box;
+}
+
+.puzzle-piece:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.puzzle-piece.selected {
+  border: 3px solid #00aaff;
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #00aaff;
+}
+
+/* --- NEW STYLES FOR SUCCESS MESSAGE --- */
+#success-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+
+  /* Initially hidden */
+  opacity: 0;
+  visibility: hidden;
+
+  /* This creates the slow transition */
+  transition: opacity 1.2s ease;
+}
+
+#success-message {
+  color: #fff;
+  font-size: 4em;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+/* --- RESPONSIVE STYLES FOR MOBILE --- */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.5em;
+  }
+  p {
+    font-size: 0.9em;
+  }
+  #timer-display {
+    font-size: 1.5em;
+  }
+  #puzzle-grid {
+    grid-template-columns: repeat(3, 30vw);
+    grid-template-rows: repeat(3, 30vw);
+  }
+  /* Responsive font size for the final message */
+  #success-message {
+    font-size: 2.5em;
+  }
+}

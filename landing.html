@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome!</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            position: relative; 
+        }
+
+        /* This pseudo-element creates the blurred background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('poster.jpg'); /* Make sure path is correct */
+            background-size: cover;
+            background-position: center;
+            /* Changed blur from 8px to 25px for a much stronger "50%" effect */
+            filter: blur(15px); 
+            z-index: -1; /* Places it behind the content */
+        }
+
+        .container {
+            text-align: center;
+            animation: fadeIn 2s ease-in-out;
+            background: rgba(0, 0, 0, 0.25); 
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        h1 {
+            font-size: 5em;
+            font-weight: bold;
+            padding: 0 20px;
+            margin: 0;
+            
+            /* Colorful text gradient */
+            background: linear-gradient(45deg, #FDBB2D, #D62976, #962FBF, #0c1035);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Responsive style for mobile */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 3em;
+            }
+            .container {
+                padding: 20px;
+                background: rgba(0, 0, 0, 0.35);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Join us on the 21st</h1>
+    </div>
+</body>
+</html>
