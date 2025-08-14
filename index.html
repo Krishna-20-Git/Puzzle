@@ -26,7 +26,7 @@
         const imageUrl = "poster.jpg";
 
         let firstSelectedPiece = null;
-        let timeLeft = 30;
+        let timeLeft = 45;
         let countdownTimer;
 
         function startTimer() {
@@ -103,13 +103,13 @@
             // 2. Make the solved puzzle look like a single image
             grid.classList.add("solved");
 
-            // 3. Wait for 7 seconds
+            // 3. Wait for 1.5 seconds
             setTimeout(() => {
               // 4. Pop up the message with a slow transition
               const overlay = document.getElementById("success-overlay");
               overlay.style.visibility = "visible";
               overlay.style.opacity = "1";
-            }, 1500); // 7000 milliseconds = 7 seconds
+            }, 1500); // 1500 milliseconds = 1.5 seconds
           }
         }
 
